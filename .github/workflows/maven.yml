@@ -42,7 +42,7 @@ jobs:
             -Dsonar.java.binaries=target
 
       - name: Package Application
-        run: mvn package
+        run: mvn package --file pom.xml
 
     
 
