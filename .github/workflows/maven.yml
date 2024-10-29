@@ -50,7 +50,7 @@ jobs:
         env:
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}   # Your Nexus username secret
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}   # Your Nexus password secret
-        run: mvn deploy -x
+        run: mvn deploy 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
