@@ -57,7 +57,7 @@ jobs:
         run: docker build -t devoops39/bloggingapp:latest .
 
       - name: Trivy Image Scan
-        run: trivy image --format table -o image.html devoops39/bloggingapp:latest
+        run: trivy image --format table -o image.html --scanners vuln devoops39/bloggingapp:latest
 
       - name: Push Docker Image
         run: docker push devoops39/bloggingapp:latest
