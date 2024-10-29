@@ -27,18 +27,18 @@ jobs:
       - name: Run Tests
         run: mvn test
 
-      - name: Install Trivy
+      - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y wget
+          sudo apt-get install -y wget unzip
+
+      - name: Install Trivy
+        run: |
           wget https://github.com/aquasecurity/trivy/releases/download/v0.44.0/trivy_0.44.0_Linux-64bit.deb
           sudo dpkg -i trivy_0.44.0_Linux-64bit.deb
         
       - name: Trivy Filesystem Scan
         run: trivy fs --format table -o fs.html .
-
-      - name: Install unzip
-        run: sudo apt-get install -y unzip
 
       - name: Install SonarQube Scanner
         run: |
