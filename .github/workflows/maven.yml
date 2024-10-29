@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted  # This indicates that the job will run on your self-hosted runner
     steps:
       - uses: actions/checkout@v4
 
@@ -27,29 +27,14 @@ jobs:
       - name: Run Tests
         run: mvn test
 
-      - name: Install Trivy
-        run: |
-          wget https://github.com/aquasecurity/trivy/releases/download/v0.44.0/trivy_0.44.0_Linux-64bit.deb
-          sudo dpkg -i trivy_0.44.0_Linux-64bit.deb
-        
       - name: Trivy Filesystem Scan
         run: trivy fs --format table -o fs.html .
-
-      - name: Install SonarQube Scanner
-        run: |
-          curl -L -O https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
-          unzip sonar-scanner-cli-4.8.0.2856-linux.zip
-          mv sonar-scanner-4.8.0.2856-linux /usr/local/sonar-scanner
-        env:
-          SCANNER_HOME: /usr/local/sonar-scanner
-          PATH: /usr/local/sonar-scanner/bin:${{ env.PATH }}
 
       - name: SonarQube Analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SCANNER_HOME: /usr/local/sonar-scanner
         run: |
-          $SCANNER_HOME/bin/sonar-scanner \
+          sonar-scanner \
             -Dsonar.projectName=Blogging-app \
             -Dsonar.projectKey=Blogging-app \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
