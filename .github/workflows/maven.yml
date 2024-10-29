@@ -26,7 +26,13 @@ jobs:
 
       - name: Run Tests
         run: mvn test
-
+      - name: Install Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://github.com/aquasecurity/trivy/releases/download/v0.44.0/trivy_0.44.0_Linux-64bit.deb
+          sudo dpkg -i trivy_0.44.0_Linux-64bit.deb
+        
       - name: Trivy Filesystem Scan
         run: trivy fs --format table -o fs.html .
 
