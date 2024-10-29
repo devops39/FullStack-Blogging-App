@@ -31,14 +31,16 @@ jobs:
         run: trivy fs --format table -o fs.html .
 
       - name: SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          sonar-scanner \
+          docker run --rm \
+            -e SONAR_TOKEN=${{ secrets.SONAR_TOKEN }} \
+            -e SONAR_SCANNER_OPTS="-Dsonar.host.url=http://192.168.0.138:9000" \
+            -v $(pwd):/usr/src \
+            sonarsource/sonar-scanner-cli \
             -Dsonar.projectName=Blogging-app \
             -Dsonar.projectKey=Blogging-app \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.java.binaries=target
+
 
       - name: Package Application
         run: mvn package
