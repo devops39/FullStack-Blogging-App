@@ -41,13 +41,14 @@ jobs:
             -Dsonar.projectKey=Blogging-app \
             -Dsonar.java.binaries=target
 
-
       - name: Package Application
         run: mvn package
 
-      - name: Deploy Artifacts
+      - name: Deploy Artifacts to Nexus
         env:
-          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}
+          MAVEN_SETTINGS: ${{ secrets.MAVEN_SETTINGS }}  # Reference to your Maven settings file
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}   # Your Nexus username secret
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}   # Your Nexus password secret
         run: mvn deploy --settings $MAVEN_SETTINGS
 
       - name: Log in to Docker Hub
