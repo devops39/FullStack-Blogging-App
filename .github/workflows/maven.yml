@@ -27,6 +27,9 @@ jobs:
       - name: Run Tests
         run: mvn test
 
+      - name: Package Application
+        run: mvn package --file pom.xml
+
       - name: Trivy Filesystem Scan
         run: trivy fs --format table -o fs.html .
 
@@ -38,8 +41,7 @@ jobs:
 
             
 
-      - name: Package Application
-        run: mvn package --file pom.xml
+      
 
     
 
