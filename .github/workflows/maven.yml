@@ -39,7 +39,15 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-            
+      - name: Upload Artifact to Nexus
+        env:
+          NEXUS_URL: ${{ secrets.NEXUS_URL }}                # Nexus Repository URL
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}      # Nexus Repository Username
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}      # Nexus Repository Password
+        run: |
+          echo "Uploading artifact to Nexus..."
+          # Adjust the JAR file name based on your artifact name
+          curl -v -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file target/twitter-app-0.0.3.jar $NEXUS_URL/repository/maven-releases/com/example/twitter-app/0.0.3/twitter-app-0.0.3.jar      
 
       
 
